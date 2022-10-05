@@ -38,7 +38,7 @@ do console sem nenhum erro, significa que estamos prontos para usar a biblioteca
 
 
   //Agora vamos importar nosso modelo no arquivo.
-classifier = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/GBkA2h-Xp/model.json',modelLoaded);
+classifier = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/5E3d7EjMV/model.json',modelLoaded);
 /*imageClassifier é uma função predefinida de ml5.js que é usada para acionar a
 função de classificação de imagem ml5.js.
 
@@ -56,34 +56,7 @@ o modelo criado no teachable machine e nada mais.
     console.log('Model Loaded!'); //Agora vamos consolar uma mensagem apenas para verificar se a classificação da imagem ml5 foi iniciada.
   }
   
-function speak(){
-  //Esta função nos ajudará a realizar a conversão de texto em fala dos resultados e falar os resultados obtidos do modelo.
-  var synth = window.speechSynthesis; //Vamos definir uma API speechSynthesis e armazená-la dentro de uma variável
-  speakData1 = "A primeira previsão é " + prediction1; 
-  /*Primeiro, vamos definir uma variável para a previsão 1 e atribuir um write-up que diz "A primeira previsão é". 
-  Em seguida, concatene a variável que conterá o resultado da previsão 1.*/
-  speakData2 = "E a segunda previsão é " + prediction2;
-  /*Agora, vamos definir outra variável para a previsão 2 e atribuir uma
-escrita que diz “E a segunda previsão é”. Depois concatene a variável que conterá o resultado da previsão */
-  var utterThis = new SpeechSynthesisUtterance(speakData1 + speakData2);
-  /*Agora vamos converter este texto em fala
 
-● utterThis - é uma variável na qual armazenaremos o texto convertido em fala.
-● SpeechSynthesisUtterance - é a função de uma API que irá converter texto em fala.
-
-● Estamos usando uma nova (new) palavra-chave porque, para cada próximo resultado,
-queremos converter esse texto em fala.
-● speakData1 - contém o texto que é o resultado da primeira previsão.
-● speakData2 - contém o texto que é o resultado da segunda previsão.
-  */
-  synth.speak(utterThis);
-}
-/*Agora vamos passar a variável utterThis para a função speak() da API.
-● synth - porque nesta, vamos armazenar a API no ponto 2.
-● speak() - a função speak() é uma função pré-definida da API.
-● utterThis - tem o valor convertido de texto em fala que queremos que o sistema fale
-A funcionalidade da função speak() é acionar o sistema para falar o que for passado dentro dela.
-*/
 
   function check()
   //O objetivo da função check() é obter a imagem capturada, passá-la para ml5.js, fazer uma comparação e chamar a função de resultado.
@@ -125,33 +98,50 @@ escreveremos results.
     gesture = results[0].label;
     //Significa que queremos o índice 1, que está dentro dos resultados. Então vamos escrever results[1].
     toSpeak = " ";
-    if(results[0].label == "Joinha")
+    if(gesture == "Joinha")
     {
 	    document.getElementById("updateEmoji").innerHTML = "&#128077;";
     }
-    if(results[0].label == "Vitoria")
+    if(gesture == "Vitoria")
     {
 	    document.getElementById("updateEmoji").innerHTML = "&#9996;&#65039;";
     }
-    if(results[0].label == "de boas")
+    if(gesture == "de boas")
     {
 	    document.getElementById("updateEmoji").innerHTML = "&#129305;";
     }
 
-    if(results[1].label == "de boas")
-    {
-	    document.getElementById("updateEmoji2").innerHTML = "&#129305;";
-    }
-    if(results[1].label == "Joinha")
-    {
-	    document.getElementById("updateEmoji2").innerHTML = "&#128077;";
-    }
-    if(results[1].label == "Vitoria")
-    {
-	    document.getElementById("updateEmoji2").innerHTML = "&#9996;&#65039;";
+    
     }
   }
-}
+
+  function speak(){
+    //Esta função nos ajudará a realizar a conversão de texto em fala dos resultados e falar os resultados obtidos do modelo.
+    var synth = window.speechSynthesis; //Vamos definir uma API speechSynthesis e armazená-la dentro de uma variável
+    speakData = toSpeak;
+    /*Primeiro, vamos definir uma variável para a previsão 1 e atribuir um write-up que diz "A primeira previsão é". 
+    Em seguida, concatene a variável que conterá o resultado da previsão 1.*/
+    
+    var utterThis = new SpeechSynthesisUtterance(speakData);
+    /*Agora vamos converter este texto em fala
+  
+  ● utterThis - é uma variável na qual armazenaremos o texto convertido em fala.
+  ● SpeechSynthesisUtterance - é a função de uma API que irá converter texto em fala.
+  
+  ● Estamos usando uma nova (new) palavra-chave porque, para cada próximo resultado,
+  queremos converter esse texto em fala.
+  ● speakData1 - contém o texto que é o resultado da primeira previsão.
+  ● speakData2 - contém o texto que é o resultado da segunda previsão.
+    */
+    synth.speak(utterThis);
+  }
+  /*Agora vamos passar a variável utterThis para a função speak() da API.
+  ● synth - porque nesta, vamos armazenar a API no ponto 2.
+  ● speak() - a função speak() é uma função pré-definida da API.
+  ● utterThis - tem o valor convertido de texto em fala que queremos que o sistema fale
+  A funcionalidade da função speak() é acionar o sistema para falar o que for passado dentro dela.
+  */
+
 
 /*● Você verá que todas as emoções estão lá com uma etiqueta de confidence.
 ● Assim, essas emoções são classificadas de acordo com a proximidade da imagem
